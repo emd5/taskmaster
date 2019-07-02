@@ -1,0 +1,8 @@
+<h1>This is all the tasks</h1>
+<ul>
+    <li th:each=“task : ${tasks}“>
+        <div th:text=“${task.title}“></div>
+        <div th:text=“${task.description}“></div>
+        <div th:text=“${task.status}“></div>
+    </li>
+</ul>
