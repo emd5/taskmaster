@@ -3,6 +3,20 @@
 ## Author 
 Liz Mahoney
 
+## Deployed Link/Routes
+
+***Must test with Postman***
+
+`/tasks` - get all tasks
+http://taskmaster-app.us-west-2.elasticbeanstalk.com/tasks
+
+`/tasks/{id}` - post a task
+http://taskmaster-app.us-west-2.elasticbeanstalk.com/tasks/{id}
+
+`/tasks/{id}/state` - change status on a task
+http://taskmaster-app.us-west-2.elasticbeanstalk.com/tasks/{id}/state
+
+
 ## Overview
 Today, you’ll start building a new application called TaskMaster. It’s a task-tracking application with the same basic goal as Trello: allow users to keep track of tasks to be done and their status. While we’ll start today with a basic feature set, we will continue building out the capabilities of this application over time.
 The reason we’re starting small on this server is because the main focus for the rest of the course is not full-stack web development, but is instead to gain experience with different features of AWS. Everything we build will have the added task of deployment using AWS. Today, you’ll get to use DynamoDB as the database for your application. As we continue to build out our skill with DynamoDB, that structure of our data will be our main focus for future development on TaskMaster.
