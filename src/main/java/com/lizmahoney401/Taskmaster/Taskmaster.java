@@ -13,14 +13,16 @@ public class Taskmaster {
     String title;
     String description;
     String status;
+    String assignee;
 
     public Taskmaster(){}
 
-    public Taskmaster(String id, String title, String description, String status) {
+    public Taskmaster(String id, String title, String description, String status, String assignee) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.status = status;
+        this.assignee = assignee;
     }
 
     @DynamoDBHashKey
@@ -35,8 +37,11 @@ public class Taskmaster {
     @DynamoDBAttribute
     public String getDescription() { return description; }
 
-    public void setId(String id){ this.id = id; }
+    @DynamoDBAttribute
+    public String getAssignee() { return assignee; }
 
+    public void setAssignee(String assignee) { this.assignee = assignee; }
+    public void setId(String id){ this.id = id; }
     public void setTitle(String title) { this.title = title; }
     public void setDescription(String description) { this.description = description; }
     public void setStatus(String status) { this.status = status; }
