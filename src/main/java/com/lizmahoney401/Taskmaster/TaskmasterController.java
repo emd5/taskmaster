@@ -17,6 +17,7 @@ public class TaskmasterController {
     @Autowired
     TaskmasterRepository taskmasterRepository;
 
+
     @GetMapping("/")
     public String getIndex(){
         return "index";
@@ -28,11 +29,23 @@ public class TaskmasterController {
         return ResponseEntity.ok(findTask);
     }
 
+    /**
+     * This method
+     * @param description
+     * @param title
+     * @param assignee
+     * @return
+     */
     @PostMapping("/tasks")
-    public ResponseEntity<String> getTasks(@RequestParam String description,
-                                           @RequestParam String title, @RequestParam String status, @RequestParam String assignee){
+    public ResponseEntity<String> getTasks(@RequestParam String description, @RequestParam String title, @RequestParam String assignee){
         String uuid = String.valueOf(UUID.randomUUID());
-        Taskmaster newTask = new Taskmaster(uuid , title, description, status, assignee);
+        Taskmaster newTask;
+        if(assignee == null || assignee.equals("")){
+            newTask = new Taskmaster(uuid , title, description, "available", null);
+        }
+        else {
+            newTask = new Taskmaster(uuid , title, description, "assigned", assignee);
+        }
         taskmasterRepository.save(newTask);
         return ResponseEntity.ok("Done");
     }
@@ -55,6 +68,11 @@ public class TaskmasterController {
         return ResponseEntity.ok(oneTask);
     }
 
+    /**
+     * This method returns a list of tasks by user
+     * @param name String name of the assignee
+     * @return the list of tasks
+     */
     @GetMapping("/users/{name}/tasks")
     public ResponseEntity<List<Taskmaster>> getTasksByUser(@PathVariable String name){
         Iterable<Taskmaster> allTasks = taskmasterRepository.findAll();
@@ -67,6 +85,12 @@ public class TaskmasterController {
         return ResponseEntity.ok(resultTaskList);
     }
 
+    /**
+     * This method taks in a task id and the new assignee and checks the assignee by the task id
+     * @param id UUID of the task
+     * @param assignee a string name of the assignee
+     * @return Response Entity - "User Assigned"
+     */
     @PutMapping("/tasks/{id}/assign/{assignee}")
     public ResponseEntity<String> assignTaskToUser(@PathVariable String id, @PathVariable String assignee){
         Iterable<Taskmaster> allTasks = taskmasterRepository.findAll();
@@ -79,24 +103,19 @@ public class TaskmasterController {
         return ResponseEntity.ok("User Assigned");
     }
 
+
+    /**
+     * This method deletes tasks by id
+     * @param id UUID of the task
+     * @return Response Entity - "User is deleted"
+     */
     @DeleteMapping("/tasks/{id}")
     public ResponseEntity<String> deleteUserByID(@PathVariable String id){
         taskmasterRepository.deleteById(id);
         return ResponseEntity.ok("User is deleted");
     }
 
-//    @GetMapping("")
-//    public ResponseEntity<List<Taskmaster>> getTasksByAvailability(@RequestParam String status){
-//        Iterable<Taskmaster> allTask = taskmasterRepository.findAll();
-//        List<Taskmaster> resultTaskList = new ArrayList<>();
-//        System.out.println("STATUS: " + status);
-//        for(Taskmaster t: allTask){
-//            if(t.getStatus().equals(status)){
-//                resultTaskList.add(t);
-//            }
-//        }
-//        return ResponseEntity.ok(resultTaskList);
-//    }
+
 
 
 

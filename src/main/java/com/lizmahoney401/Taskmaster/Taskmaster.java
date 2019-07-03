@@ -40,9 +40,20 @@ public class Taskmaster {
     @DynamoDBAttribute
     public String getAssignee() { return assignee; }
 
-    public void setAssignee(String assignee) { this.assignee = assignee; }
-    public void setId(String id){ this.id = id; }
-    public void setTitle(String title) { this.title = title; }
-    public void setDescription(String description) { this.description = description; }
-    public void setStatus(String status) { this.status = status; }
+    // Setters
+    public void setAssignee(String assignee) {
+        this.assignee = assignee;
+    }
+    public void setId(String id){
+        this.id = id;
+    }
+    public void setTitle(String title) {
+        this.title = title;
+    }
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }
