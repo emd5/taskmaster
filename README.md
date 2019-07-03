@@ -44,6 +44,38 @@ refresh of app on building). Remember to do your initial commit on the master br
 see the below note about configuring Spring Security.
 
 ## Feature Tasks
+
+***7/3/19***
+
+- [x] A user should be able to make a GET request to /tasks and receive JSON data representing all of the tasks.
+    - [x] Each task should have a title, description, assignee, and status, all of which are strings, as well as an id.
+- [x] A user should be able to make a GET request to /users/{name}/tasks and receive JSON data representing all of 
+the tasks assigned to that user.
+    - [x] This should work (i.e. return an empty array) if the requested username does not have any assigned tasks.
+- [x] A user should be able to make a POST request to /tasks with body parameters for title, description, and 
+assignee to add a new task.
+    - [x] A task should start with a status of Available if there is no assignee, and Assigned if there is an assignee.
+    - [x] The response to that request should contain the complete saved data for that task.
+    - [x] It should not matter whether or not that assignee is already in the database.
+- [x] A user should be able to make a PUT request to /tasks/{id}/state to advance the status of that task.
+    - [x] Tasks should advance from Available -> Assigned -> Accepted -> Finished.
+- [x] A user should be able to make a PUT request to /tasks/{id}/assign/{assignee} to assign a particular user to a 
+task.
+    - [x] Changing the assignee should set the task’s state to Assigned.
+    - [x] This should work whether or not that assignee name is already in the database.
+- [x] A user should be able to access this application on the Internet.
+    - [x] The application should be deployed to EC2, with the database on DynamoDB.
+    - [x] You should also use DynamoDB for your local application testing; in other words, you should connect to your production database, even in your development environment. (This is generally a bad practice, and we’ll see how to work differently soon.)
+
+## Stretch Goals
+- [] Put your application at a custom domain or sub-domain.
+- [x] A user should be able to make a DELETE request to /tasks/{id} to delete a task.
+- [] A user should be able to make a GET request to /users/{name}/tasks?status=assigned to receive JSON data representing all of the tasks assigned to that user that are not in the Assigned state.
+- [] A user should be able to make a GET request to /tasks?status=available to receive JSON data representing all of the available (unassigned) tasks.
+- [] That status query parameter should be extended to work with all statuses and all GET requests.
+- [] And should allow comma-separated values, i.e. ?status=assigned,accepted.
+
+***7/2/19***
 - [x] A user should be able to make a GET request to /tasks and receive JSON data representing all of the tasks.
 - [x] Each task should have a title, description, and status.
 - [x] A user should be able to make a POST request to /tasks with body parameters for title and description to add a 
@@ -62,5 +94,8 @@ production database, even in your development environment. (This is generally a 
 - A user should be able to make a DELETE request to /tasks/{id} to delete a task.
 
 ### Resources 
+
+https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/welcome.html
+https://www.baeldung.com/spring-data-dynamodb
 
 
