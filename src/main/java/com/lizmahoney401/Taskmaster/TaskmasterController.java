@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-
+@CrossOrigin(origins = "http://taskmaster-app.us-west-2.elasticbeanstalk.com/", maxAge = 3600)
 @Controller
 public class TaskmasterController {
 
