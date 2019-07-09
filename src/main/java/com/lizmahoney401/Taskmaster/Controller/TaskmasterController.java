@@ -1,30 +1,34 @@
-package com.lizmahoney401.Taskmaster;
+package com.lizmahoney401.Taskmaster.Controller;
 
+import com.lizmahoney401.Taskmaster.Model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@CrossOrigin(origins = "http://taskmaster-app.us-west-2.elasticbeanstalk.com/", maxAge = 3600)
-@Controller
+@CrossOrigin
+@RestController
 public class TaskmasterController {
 
     @Autowired
-    TaskmasterRepository taskmasterRepository;
+    S3Client s3Client;
 
+    @Autowired
+    TaskmasterRepository taskmasterRepository;
 
     @GetMapping("/")
     public String getIndex(){
         return "index";
     }
 
+    @CrossOrigin
     @GetMapping("/tasks")
-    public ResponseEntity<Iterable<Taskmaster>> getTasks(Model m){
+    public ResponseEntity<Iterable<Taskmaster>> getTasks(){
         Iterable<Taskmaster> findTask = taskmasterRepository.findAll();
         return ResponseEntity.ok(findTask);
     }
@@ -36,6 +40,7 @@ public class TaskmasterController {
      * @param assignee
      * @return
      */
+    @CrossOrigin
     @PostMapping("/tasks")
     public ResponseEntity<String> getTasks(@RequestParam String description, @RequestParam String title, @RequestParam String assignee){
         String uuid = String.valueOf(UUID.randomUUID());
@@ -50,6 +55,7 @@ public class TaskmasterController {
         return ResponseEntity.ok("Done");
     }
 
+    @CrossOrigin
     @PutMapping("/tasks/{id}/state")
     public ResponseEntity<Taskmaster> updateStatus(@PathVariable String id){
         Taskmaster oneTask =taskmasterRepository.findById(id).get();
@@ -73,6 +79,7 @@ public class TaskmasterController {
      * @param name String name of the assignee
      * @return the list of tasks
      */
+    @CrossOrigin
     @GetMapping("/users/{name}/tasks")
     public ResponseEntity<List<Taskmaster>> getTasksByUser(@PathVariable String name){
         Iterable<Taskmaster> allTasks = taskmasterRepository.findAll();
@@ -91,6 +98,7 @@ public class TaskmasterController {
      * @param assignee a string name of the assignee
      * @return Response Entity - "User Assigned"
      */
+    @CrossOrigin
     @PutMapping("/tasks/{id}/assign/{assignee}")
     public ResponseEntity<String> assignTaskToUser(@PathVariable String id, @PathVariable String assignee){
         Iterable<Taskmaster> allTasks = taskmasterRepository.findAll();
@@ -109,18 +117,33 @@ public class TaskmasterController {
      * @param id UUID of the task
      * @return Response Entity - "User is deleted"
      */
+    @CrossOrigin
     @DeleteMapping("/tasks/{id}")
     public ResponseEntity<String> deleteUserByID(@PathVariable String id){
         taskmasterRepository.deleteById(id);
         return ResponseEntity.ok("User is deleted");
     }
 
+    @CrossOrigin
+    @GetMapping("/tasks/{id}")
+    public ResponseEntity<Taskmaster> getTasksById(@PathVariable String id){
+        Taskmaster oneTask =taskmasterRepository.findById(id).get();
+        return ResponseEntity.ok(oneTask);
+    }
 
 
+    @CrossOrigin
+    @PostMapping("/tasks/{id}/images")
+    public ResponseEntity<Taskmaster> uploadFile(
+            @PathVariable String id,
+            @RequestPart(value = "file") MultipartFile file
+    ){
+        Taskmaster oneTask =taskmasterRepository.findById(id).get();
+        String pic = this.s3Client.uploadFile(file);
+        oneTask.setImageUrl(pic);
+        taskmasterRepository.save(oneTask);
 
+        return ResponseEntity.ok(oneTask);
 
-
-
-
-
+    }
 }

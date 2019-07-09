@@ -1,4 +1,4 @@
-package com.lizmahoney401.Taskmaster;
+package com.lizmahoney401.Taskmaster.Model;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
