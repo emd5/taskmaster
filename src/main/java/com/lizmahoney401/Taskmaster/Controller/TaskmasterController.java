@@ -1,21 +1,25 @@
-package com.lizmahoney401.Taskmaster;
+package com.lizmahoney401.Taskmaster.Controller;
 
+import com.lizmahoney401.Taskmaster.Model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@Controller
+@CrossOrigin
+@RestController
 public class TaskmasterController {
 
     @Autowired
-    TaskmasterRepository taskmasterRepository;
+    S3Client s3Client;
 
+    @Autowired
+    TaskmasterRepository taskmasterRepository;
 
     @GetMapping("/")
     public String getIndex(){
@@ -24,7 +28,7 @@ public class TaskmasterController {
 
     @CrossOrigin
     @GetMapping("/tasks")
-    public ResponseEntity<Iterable<Taskmaster>> getTasks(Model m){
+    public ResponseEntity<Iterable<Taskmaster>> getTasks(){
         Iterable<Taskmaster> findTask = taskmasterRepository.findAll();
         return ResponseEntity.ok(findTask);
     }
@@ -120,12 +124,26 @@ public class TaskmasterController {
         return ResponseEntity.ok("User is deleted");
     }
 
+    @CrossOrigin
+    @GetMapping("/tasks/{id}")
+    public ResponseEntity<Taskmaster> getTasksById(@PathVariable String id){
+        Taskmaster oneTask =taskmasterRepository.findById(id).get();
+        return ResponseEntity.ok(oneTask);
+    }
 
 
+    @CrossOrigin
+    @PostMapping("/tasks/{id}/images")
+    public ResponseEntity<Taskmaster> uploadFile(
+            @PathVariable String id,
+            @RequestPart(value = "file") MultipartFile file
+    ){
+        Taskmaster oneTask =taskmasterRepository.findById(id).get();
+        String pic = this.s3Client.uploadFile(file);
+        oneTask.setImageUrl(pic);
+        taskmasterRepository.save(oneTask);
 
+        return ResponseEntity.ok(oneTask);
 
-
-
-
-
+    }
 }

@@ -1,5 +1,6 @@
-package com.lizmahoney401.Taskmaster;
+package com.lizmahoney401.Taskmaster.Model;
 
+import com.lizmahoney401.Taskmaster.Model.Taskmaster;
 import org.socialsignin.spring.data.dynamodb.repository.EnableScan;
 import org.springframework.data.repository.CrudRepository;
 

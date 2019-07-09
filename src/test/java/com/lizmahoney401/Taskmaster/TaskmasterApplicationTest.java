@@ -4,6 +4,8 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.model.CreateTableRequest;
 import com.amazonaws.services.dynamodbv2.model.ProvisionedThroughput;
+import com.lizmahoney401.Taskmaster.Model.Taskmaster;
+import com.lizmahoney401.Taskmaster.Model.TaskmasterRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

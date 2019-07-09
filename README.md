@@ -5,16 +5,21 @@ Liz Mahoney
 
 ## Deployed Link/Routes
 
-***Must test with Postman***
+Frontend - https://master.d1abu7pwsmv6f1.amplifyapp.com/
 
+Backend - http://taskmaster-app-dev.us-west-2.elasticbeanstalk.com/tasks
+
+Taskmaster Backend Github Repo - https://github.com/emd5/taskmaster
+
+***Must test with Postman***
 `/tasks` - get all tasks
-http://taskmaster-app.us-west-2.elasticbeanstalk.com/tasks
+http://taskmaster-app-dev.us-west-2.elasticbeanstalk.com/tasks
 
 `/tasks/{id}` - post a task
-http://taskmaster-app.us-west-2.elasticbeanstalk.com/tasks/{id}
+http://taskmaster-app-dev.us-west-2.elasticbeanstalk.com/tasks/{id}
 
 `/tasks/{id}/state` - change status on a task
-http://taskmaster-app.us-west-2.elasticbeanstalk.com/tasks/{id}/state
+http://taskmaster-app-dev.us-west-2.elasticbeanstalk.com/tasks/{id}/state
 
 
 ## Overview
@@ -37,6 +42,13 @@ In terminal run: `./gradlew tasks`
 
 In terminal run: `./gradlew test`
 
+## Deploy to Elastic Beanstalk
+
+***EBS***
+- run `./gradlew bootJar`
+- `eb deploy`
+
+
 ## Setup
 Create a new repo `Taskmaster` to hold your work for the last 5 Spring labs. Use the Spring `Initializr` to set 
 up an app with dependencies on AWS core, Web, Thymeleaf, JPA, Postgres, and Security (and optionally DevTools for auto 
@@ -44,6 +56,13 @@ refresh of app on building). Remember to do your initial commit on the master br
 see the below note about configuring Spring Security.
 
 ## Feature Tasks
+
+***7/8/19***
+- [x] Users should be able to upload images that are associated with tasks.
+    - [x] This ability should be at a route like POST /tasks/{id}/images. (This means it only needs to work for existing tasks, not as part of the initial creation of a task.)
+    - [x] Your server should programmatically upload this image to S3.
+    - [x] Your server should store the image URL (on S3) somewhere in its database, associated with the task.
+    - [x] Fetching a single task (at GET /tasks/{id}) should also include the image URLs associated with that image.
 
 ***7/3/19***
 
@@ -67,7 +86,7 @@ task.
     - [x] The application should be deployed to EC2, with the database on DynamoDB.
     - [x] You should also use DynamoDB for your local application testing; in other words, you should connect to your production database, even in your development environment. (This is generally a bad practice, and we’ll see how to work differently soon.)
 
-## Stretch Goals
+### Stretch Goals
 - [] Put your application at a custom domain or sub-domain.
 - [x] A user should be able to make a DELETE request to /tasks/{id} to delete a task.
 - [] A user should be able to make a GET request to /users/{name}/tasks?status=assigned to receive JSON data representing all of the tasks assigned to that user that are not in the Assigned state.
@@ -93,7 +112,7 @@ production database, even in your development environment. (This is generally a 
 ### Stretch Goals
 - A user should be able to make a DELETE request to /tasks/{id} to delete a task.
 
-### Resources 
+## Resources 
 
 https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/welcome.html
 https://www.baeldung.com/spring-data-dynamodb
