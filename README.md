@@ -11,6 +11,8 @@ Backend - http://taskmaster-app-dev.us-west-2.elasticbeanstalk.com/tasks
 
 Taskmaster Backend Github Repo - https://github.com/emd5/taskmaster
 
+Lambda Resize Image Repo -https://github.com/emd5/lambdaresize
+
 ***Must test with Postman***
 `/tasks` - get all tasks
 http://taskmaster-app-dev.us-west-2.elasticbeanstalk.com/tasks
@@ -56,6 +58,13 @@ refresh of app on building). Remember to do your initial commit on the master br
 see the below note about configuring Spring Security.
 
 ## Feature Tasks
+
+***7/9/19***
+- [x] A user should be able to upload an image at any size, and have both the original size and a thumbnail size 
+associated with the task in question.
+ - [x] When an image is uploaded to your S3 bucket, it should trigger a Lambda function. (That Lambda function may be 
+  written in any language.)
+ - [x] That function should create a 50x50 pixel thumbnail version of that image, and save it to another S3 bucket. It should do so with a predictable naming convention, so that your server and/or frontend know where that thumbnail image will be.
 
 ***7/8/19***
 - [x] Users should be able to upload images that are associated with tasks.
