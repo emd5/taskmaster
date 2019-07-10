@@ -13,7 +13,7 @@ public class Taskmaster {
     public String status;
     public String assignee;
     public String imageUrl;
-
+    public String thumbnailImageUrl;
 
     public Taskmaster(){}
 
@@ -43,7 +43,11 @@ public class Taskmaster {
     @DynamoDBAttribute
     public String getImageUrl() { return this.imageUrl; }
 
+    @DynamoDBAttribute
+    public String getThumbnailImageUrl() { return thumbnailImageUrl; }
+
     // Setters
+    public void setThumbnailImageUrl(String thumbnailImageUrl) { this.thumbnailImageUrl = thumbnailImageUrl; }
     public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
     public void setAssignee(String assignee) {
         this.assignee = assignee;

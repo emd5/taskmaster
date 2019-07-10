@@ -1,12 +1,22 @@
 package com.lizmahoney401.Taskmaster.Controller;
 
+import com.amazonaws.auth.profile.ProfileCredentialsProvider;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.model.GetObjectRequest;
+import com.amazonaws.services.s3.model.S3Object;
 import com.lizmahoney401.Taskmaster.Model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -141,6 +151,10 @@ public class TaskmasterController {
         Taskmaster oneTask =taskmasterRepository.findById(id).get();
         String pic = this.s3Client.uploadFile(file);
         oneTask.setImageUrl(pic);
+
+        String[] picSplit = pic.split("/");
+        String fileName = picSplit[picSplit.length-1];
+        oneTask.setThumbnailImageUrl("https://taskmasterappimageresized.s3-us-west-2.amazonaws.com/resized-" + fileName);
         taskmasterRepository.save(oneTask);
 
         return ResponseEntity.ok(oneTask);
