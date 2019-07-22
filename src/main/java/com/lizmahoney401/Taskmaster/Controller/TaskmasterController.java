@@ -13,10 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -24,6 +20,8 @@ import java.util.UUID;
 @CrossOrigin
 @RestController
 public class TaskmasterController {
+
+    private static final String RESIZE_URL = "https://taskmasterappimageresized.s3-us-west-2.amazonaws.com/resized-";
 
     @Autowired
     S3Client s3Client;
@@ -154,7 +152,7 @@ public class TaskmasterController {
 
         String[] picSplit = pic.split("/");
         String fileName = picSplit[picSplit.length-1];
-        oneTask.setThumbnailImageUrl("https://taskmasterappimageresized.s3-us-west-2.amazonaws.com/resized-" + fileName);
+        oneTask.setThumbnailImageUrl(RESIZE_URL + fileName);
         taskmasterRepository.save(oneTask);
 
         return ResponseEntity.ok(oneTask);
